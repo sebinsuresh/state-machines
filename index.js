@@ -55,65 +55,58 @@ const createMachine = (startStateName, states) => {
     }
 }
 
-/** @type {State} */
-const startState = {
-    name: "start",
-    transitions: {
-        "drawing": {
-            effect: () => {
-                console.log(`side effect: 'start' -> 'drawing'`);
-            }
+/** @type {State[]} */
+const states = [
+    {
+        name: "start",
+        transitions: {
+            "drawing": {
+                effect: () => {
+                    console.log(`side effect: 'start' -> 'drawing'`);
+                }
+            },
+        },
+        onEnter: () => {
+            console.log(`entering 'start' state`);
+        },
+        onExit: () => {
+            console.log(`leaving 'start' state`);
         },
     },
-    onEnter: () => {
-        console.log(`entering 'start' state`);
-    },
-    onExit: () => {
-        console.log(`leaving 'start' state`);
-    },
-};
-
-/** @type {State} */
-const drawingState = {
-    name: "drawing",
-    transitions: {
-        "end": {
-            effect: () => {
-                console.log(`side effect: 'drawing' -> 'end'`);
-            }
+    {
+        name: "drawing",
+        transitions: {
+            "end": {
+                effect: () => {
+                    console.log(`side effect: 'drawing' -> 'end'`);
+                }
+            },
         },
-    },
-    onEnter: () => {
-        console.log(`entering 'drawing' state`);
-    },
-    onExit: () => {
-        console.log(`leaving 'drawing' state`);
-    },
-};
-
-/** @type {State} */
-const endState = {
-    name: "end",
-    transitions: {
-        "start": {
-            effect: () => {
-                console.log(`side effect: 'end' -> 'start'`);
-            }
+        onEnter: () => {
+            console.log(`entering 'drawing' state`);
         },
-    },
-    onEnter: () => {
-        console.log(`entering 'end' state`);
-    },
-    onExit: () => {
-        console.log(`leaving 'end' state`);
-    },
-};
+        onExit: () => {
+            console.log(`leaving 'drawing' state`);
+        },
+    }, {
+        name: "end",
+        transitions: {
+            "start": {
+                effect: () => {
+                    console.log(`side effect: 'end' -> 'start'`);
+                }
+            },
+        },
+        onEnter: () => {
+            console.log(`entering 'end' state`);
+        },
+        onExit: () => {
+            console.log(`leaving 'end' state`);
+        },
+    }
+];
 
-const appStateMachine = createMachine("start", [
-    startState,
-    drawingState,
-    endState,
-]);
+const appStateMachine = createMachine("start", states);
 
 // valid transitions
 console.log(`(Current state: '${appStateMachine.getCurrentState().name}')`);

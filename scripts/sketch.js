@@ -87,7 +87,7 @@ function setup() {
   drawGridToBuffer(bgGfx);
   cursor(HAND);
 
-  example1();
+  // example1();
 }
 
 function draw() {

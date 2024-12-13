@@ -86,13 +86,13 @@ function setup() {
 function draw() {
   clearCanvas();
   drawGrid();
-  drawLines();
   drawCursor();
+  drawLines();
 }
 
 function drawLines() {
   noStroke();
-  fill(180);
+  fill(200);
   const padding = 4;
 
   if (lastPoint.length === 2) {
@@ -105,8 +105,13 @@ function drawLines() {
   }
 
   for (let linePoint of linePoints) {
+    stroke(150);
+    strokeWeight(4);
+    drawingContext.setLineDash([]);
+    line(linePoint[0], linePoint[1], linePoint[2], linePoint[3]);
+
     noStroke();
-    fill(180);
+    fill(200);
     square(
       linePoint[0] - HALF_LINE_SEP + padding,
       linePoint[1] - HALF_LINE_SEP + padding,
@@ -119,27 +124,16 @@ function drawLines() {
       LINE_SEP - 2 * padding,
       padding
     );
-
-    stroke(255);
-    strokeWeight(2);
-    line(linePoint[0], linePoint[1], linePoint[2], linePoint[3]);
   }
 }
 
 function drawCursor() {
-  noStroke();
-  fill(180);
   const padding = 4;
-  square(
-    Math.round(mouseX / LINE_SEP) * LINE_SEP - HALF_LINE_SEP + padding,
-    Math.round(mouseY / LINE_SEP) * LINE_SEP - HALF_LINE_SEP + padding,
-    LINE_SEP - 2 * padding,
-    padding
-  );
 
   if (currState === DRAWING && lastPoint.length === 2) {
-    stroke(255);
-    strokeWeight(2);
+    stroke(150);
+    strokeWeight(3);
+    drawingContext.setLineDash([8]);
     line(
       lastPoint[0],
       lastPoint[1],
@@ -147,6 +141,15 @@ function drawCursor() {
       Math.round(mouseY / LINE_SEP) * LINE_SEP
     );
   }
+
+  noStroke();
+  fill(200);
+  square(
+    Math.round(mouseX / LINE_SEP) * LINE_SEP - HALF_LINE_SEP + padding + 4,
+    Math.round(mouseY / LINE_SEP) * LINE_SEP - HALF_LINE_SEP + padding + 4,
+    LINE_SEP - 2 * padding - 8,
+    padding
+  );
 }
 
 function drawGrid() {

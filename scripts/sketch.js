@@ -66,6 +66,13 @@ function transition(state, action) {
 
     // if different cell and no line exists, add line
     linePoints.push([minX, minY, maxX, maxY]);
+
+    // if shift was held down, continue drawing line from there
+    if (keyIsDown(SHIFT)) {
+      lastPoint = [roundedMouseX, roundedMouseY];
+      return DRAWING;
+    }
+
     return HOVERING;
   }
 

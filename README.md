@@ -4,6 +4,4 @@ State machine attempt in JS
 
 ## Running
 
-```sh
-node index.js
-```
+Serve root directory and open `index.html` in a browser

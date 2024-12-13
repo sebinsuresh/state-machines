@@ -60,6 +60,7 @@ function transition(state, action) {
     );
     if (foundIndex > -1) {
       linePoints.splice(foundIndex, 1);
+      lastPoint = [];
       return HOVERING;
     }
 

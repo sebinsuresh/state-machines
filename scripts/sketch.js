@@ -76,6 +76,16 @@ function transition(state, action) {
     return HOVERING;
   }
 
+  if (state === HOVERING && action === "cancel") {
+    // do nothing
+    return HOVERING;
+  }
+
+  if (state === DRAWING && action === "cancel") {
+    lastPoint = [];
+    return HOVERING;
+  }
+
   alert("invalid transition error");
   lastPoint = [];
   return HOVERING;
@@ -192,4 +202,10 @@ function windowResized() {
 
 function mouseClicked() {
   currState = transition(currState, "click");
+}
+
+function keyPressed() {
+  if (keyCode === ESCAPE) {
+    currState = transition(currState, "cancel");
+  }
 }

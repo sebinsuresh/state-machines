@@ -49,12 +49,12 @@ function transition(state, action) {
     return HOVERING;
   }
 
-  if (state === HOVERING && action === "click") {
+  if (state === HOVERING && action === "mouseReleased") {
     lastPoint = [roundedMouseX, roundedMouseY];
     return DRAWING;
   }
 
-  if (state === DRAWING && action === "click") {
+  if (state === DRAWING && action === "mouseReleased") {
     // if same cell, cancel
     if (roundedMouseX === lastPoint[0] && roundedMouseY === lastPoint[1]) {
       lastPoint = [];
@@ -237,8 +237,8 @@ function windowResized() {
   drawGridToBuffer(bgGfx);
 }
 
-function mouseClicked() {
-  currState = transition(currState, "click");
+function mouseReleased() {
+  currState = transition(currState, "mouseReleased");
 }
 
 function keyPressed() {

@@ -14,7 +14,17 @@ const HALF_LINE_SEP = LINE_SEP / 2;
 
 const HOVERING = 1;
 const DRAWING = 2;
+
+/** @type {Object.<number, string>} */
+const STATE_MAP = {
+  [HOVERING]: "Hovering",
+  [DRAWING]: "Drawing",
+};
+
 let currState = HOVERING;
+
+/** @type {string | undefined} */
+let lastAction = undefined;
 
 /** @type {number[]} */
 let lastPoint = [];
@@ -28,6 +38,8 @@ const linePoints = [];
  * @returns {number} next state
  */
 function transition(state, action) {
+  lastAction = action;
+
   const roundedMouseX = Math.round(mouseX / LINE_SEP) * LINE_SEP;
   const roundedMouseY = Math.round(mouseY / LINE_SEP) * LINE_SEP;
 
@@ -77,7 +89,9 @@ function transition(state, action) {
   }
 
   if (state === HOVERING && action === "cancel") {
+    // nothing happened
     // do nothing
+    lastAction = undefined;
     return HOVERING;
   }
 
@@ -105,6 +119,23 @@ function draw() {
   drawGrid();
   drawCursor();
   drawLines();
+
+  drawDebugText();
+}
+
+function drawDebugText() {
+  noStroke();
+  fill(255);
+  let debugTextHeight = 16;
+  let debugTextCurrY = 50;
+  textSize(debugTextHeight);
+  text(`state: ${STATE_MAP[currState]}`, 50, debugTextCurrY);
+
+    debugTextCurrY += debugTextHeight + 2;
+  text(`lastAction: ${lastAction ?? ""}`, 50, debugTextCurrY);
+
+  debugTextCurrY += debugTextHeight + 2;
+  text(`lastPoint: ${lastPoint}`, 50, debugTextCurrY);
 }
 
 function drawLines() {

@@ -43,6 +43,12 @@ function transition(state, action) {
   const roundedMouseX = Math.round(mouseX / LINE_SEP) * LINE_SEP;
   const roundedMouseY = Math.round(mouseY / LINE_SEP) * LINE_SEP;
 
+  if (action === "reset") {
+    lastPoint = [];
+    linePoints.length = 0;
+    return HOVERING;
+  }
+
   if (state === HOVERING && action === "click") {
     lastPoint = [roundedMouseX, roundedMouseY];
     return DRAWING;
@@ -131,7 +137,7 @@ function drawDebugText() {
   textSize(debugTextHeight);
   text(`state: ${STATE_MAP[currState]}`, 50, debugTextCurrY);
 
-    debugTextCurrY += debugTextHeight + 2;
+  debugTextCurrY += debugTextHeight + 2;
   text(`lastAction: ${lastAction ?? ""}`, 50, debugTextCurrY);
 
   debugTextCurrY += debugTextHeight + 2;
@@ -238,5 +244,8 @@ function mouseClicked() {
 function keyPressed() {
   if (keyCode === ESCAPE) {
     currState = transition(currState, "cancel");
+  }
+  if (key.toUpperCase() === "R") {
+    currState = transition(currState, "reset");
   }
 }
